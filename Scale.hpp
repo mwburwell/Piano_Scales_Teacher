@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 #include <string>
 #include <map>
 #include "Enumerators.hpp"
@@ -8,35 +9,61 @@ enum class ScaleType {IONIAN, DORIAN,PHRYGIAN,LYDIAN,MIXOLYDIAN,AEOLIAN,LOCRIAN}
 
 class Scale {
 private:
-	std::vector<Note> notes;
+	std::vector<Note> scale;
 	Note root;
 	int scaleSize;
 public:
 	Scale(Note key, ScaleType mode) {
-		stepFromKey(key, this->notes, chooseScaleSteps(mode));
-		this->scaleSize = notes.size();
+		stepFromKey(key, this->scale, chooseScaleSteps(mode));
+		this->scaleSize = scale.size();
 	}
 
-	std::vector<Note> getScale(){return this->notes;}
-	int size(){return this->scaleSize;}
-	std::string getNote_toString(int index){
-		Note n = notes.at(index);
-		return noteToString[n];
+    bool contains(const Note &n){
+        for(unsigned int i = 0; i < Scale::getSize(); i++){
+            if(this->getNote(i) == n){
+                return true;
+            }
+        }
+        return false;
+    }
+	std::vector<Note> getScale() const {
+        return this->scale;
+    }
+
+	int getSize() const {
+        return this->scaleSize;
+    }
+
+	std::string getNote_toString(int index) const {
+        try{
+            if(index < 0)
+                throw std::invalid_argument("index can not be less than 0.");
+
+            if(index > this->getSize() - 1)
+                throw std::invalid_argument("index reference outside of array bounds.");
+
+            return noteToString[scale.at(index)];
+        } catch (std::invalid_argument ex){
+            std::cout << "getNote_toString <invalid_argument> - " << ex.what() << std::endl;
+            throw ex;
+        }
 	}
 
-	std::vector<int> chooseScaleSteps(ScaleType type){
-		switch(type){
-			case ScaleType::IONIAN: return {2,2,1,2,2,2,1}; break;
-			case ScaleType::DORIAN: return {2,1,2,2,2,1,2}; break;
-			case ScaleType::PHRYGIAN: return {1,2,2,2,1,2,2}; break;
-			case ScaleType::LYDIAN: return {2,2,2,1,2,2,1}; break;
-			case ScaleType::MIXOLYDIAN: return {2,2,1,2,2,1,2}; break;
-			case ScaleType::AEOLIAN: return {2,1,2,2,1,2,2}; break;
-			case ScaleType::LOCRIAN: return {1,2,2,1,2,2,2}; break;
-			default: return {0}; break;
-		}
-		return {0};
-	}
+    Note getNote(int index) const {
+        try{
+            if(index < 0)
+                throw std::invalid_argument("index can not be less than 0.");
+
+            if(index > this->getSize() - 1)
+                throw std::invalid_argument("index reference outside of array bounds.");
+
+
+            return this->scale.at(index);
+        } catch (std::invalid_argument ex){
+            std::cout << "getNote <invalid_argument> - " << ex.what() << std::endl;
+            throw ex;
+        }
+    }
 
 
 private:
@@ -61,4 +88,19 @@ private:
 		}
 		return (note + step);
 	}
+
+	std::vector<int> chooseScaleSteps(ScaleType type){
+		switch(type){
+			case ScaleType::IONIAN: return {2,2,1,2,2,2,1}; break;
+			case ScaleType::DORIAN: return {2,1,2,2,2,1,2}; break;
+			case ScaleType::PHRYGIAN: return {1,2,2,2,1,2,2}; break;
+			case ScaleType::LYDIAN: return {2,2,2,1,2,2,1}; break;
+			case ScaleType::MIXOLYDIAN: return {2,2,1,2,2,1,2}; break;
+			case ScaleType::AEOLIAN: return {2,1,2,2,1,2,2}; break;
+			case ScaleType::LOCRIAN: return {1,2,2,1,2,2,2}; break;
+			default: return {0}; break;
+		}
+		return {0};
+	}
+
 };
