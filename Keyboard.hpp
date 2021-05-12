@@ -18,14 +18,14 @@ public:
         }
     }
 
-    unsigned int getNumberOfKeys() const {return this->numberOfKeys;}
+    unsigned int getSize() const {return this->numberOfKeys;}
 
     Note getNote(int index){
         try{
             if(index < 0){
                 throw std::invalid_argument("index cannot be less than 0.");
             }
-            if(index > getNumberOfKeys() - 1){
+            if(index > getSize() - 1){
                 throw std::invalid_argument("index is greater than size of vector.");
             }
             return this->keyboard.at(index);
@@ -36,6 +36,15 @@ public:
         }
     }
 
+    std::vector<int> getIndecesOfNote(Note n){
+        std::vector<int> indeces;
+        for(unsigned int i = 0; i < getSize(); i++){
+            if(getNote(i) == n){
+                indeces.push_back(i);
+            }
+        }
+        return indeces;
+    }
     std::string getNote_toString(int index) const {
 		Note n = this->keyboard.at(index);
 		return noteToString[n];
