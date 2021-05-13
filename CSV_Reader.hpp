@@ -35,16 +35,17 @@ public:
     std::map<int, std::vector<std::string>> getMap() const {return this->chordProgressionMap; }
 
     /**Pull a progression by index will catch to see if index being passed is out of range */
-    std::vector<std::string> getProgression(unsigned int index){
+    std::vector<std::string> getProgression(unsigned int index) const {
         try{
             if(index < 0 || index > (this->getSize() - 1))
                 throw std::out_of_range("Index is out of range (0,"+std::to_string(getSize() - 1)+") - " + std::to_string(index) );
     
-            return this->chordProgressionMap[index];
+            return this->chordProgressionMap.at(index);
 
         } catch(std::out_of_range ex){
             std::cout << "getProgression <out_of_range> - " << ex.what() << std::endl;
         }
+        return {0};  // <--- should never get here;
     }
 
     /**Get the size of the map */
@@ -87,6 +88,8 @@ private:
             this->chordProgressionMap[count] = row;   // add the vector to classes map
             count++;
         }
+
+        this->mapSize = count;          // initialize map size
     }
 
 };
