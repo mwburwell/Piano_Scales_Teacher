@@ -3,7 +3,7 @@
 #include <map>
 #include <vector>
 #include "Chord.hpp"
-#include "Keyboard.hpp"
+#include "Piano.hpp"
 #include "CSV_Reader.hpp"
 
 
@@ -13,14 +13,14 @@ int main(){
     CSV_Reader reader("chordprogressions.csv");
 
     for(int i = 0; i < reader.getSize(); i++){
-        
+
     }
 
 
     // file.close();
     // std::vector<int> chordProgressionStructure = {};
     // Note key = Note::C;
-    // Keyboard piano(Note::A, 88);
+    // Piano piano(Note::A, 88);
     // Scale scale(key, ScaleType::IONIAN);
 
     // std::vector<Chord*> chordProgression;
