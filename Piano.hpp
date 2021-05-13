@@ -7,9 +7,11 @@ class Piano{
 private:
     unsigned int numberOfKeys;
     std::vector<Note> keyboard;
+    Note firstKey;
 public:
     Piano(Note firstKey, unsigned int numKeys){
         try{
+            this->firstKey = firstKey;
             setNumberOfKeys(numKeys);
             setKeyboard(firstKey);
         } catch(std::exception ex){
@@ -45,11 +47,36 @@ public:
         }
         return indeces;
     }
+
     std::string getNote_toString(int index) const {
 		Note n = this->keyboard.at(index);
 		return noteToString[n];
 	}
 
+    std::string toString(){
+        std::string pString;
+        for(unsigned int i = 0; i < Piano::getSize(); i++){
+            pString += "_ ";
+        }
+        pString += '\n';
+    
+        for(unsigned int i = 0; i < Piano::getSize(); i++){
+            std::string n = noteToString[this->keyboard.at(i)];
+            if(n.length() > 1){
+                pString += "^ ";
+            }
+            else{
+                pString += (n + " ");
+            }
+        }
+        pString += '\n';
+        return pString;
+    }
+
+    friend std::ostream& operator<<(std::ostream& output, Piano &p) {
+        output << p.toString();
+        return output;
+    }
 private:
     void setNumberOfKeys(unsigned int keys){
         /**Verify the number of keys are between 12 and 88 then assign to class variable */
@@ -79,14 +106,18 @@ private:
 		 * an integer and adding the current step interval to that.
 		 */
 		for(int i = 0; i < this->numberOfKeys; i++){
-			Note newNote = (Note)nextNote((int)keyboard[i], 1);
+			Note newNote = (Note)Piano::nextNote((int)keyboard[i], 1);
             keyboard.push_back(newNote);
 		}
 	}
 
     int nextNote(int note, int step){
-        if((note + step) > 11){		// will loop back to the start of the notes
-            note -= 12;
+        int octave = (int)((note + step) / 12);
+        if(octave > 0){
+            note -= 12 * octave;
+        }
+        else if((note + step) > 11){		// will loop back to the start of the notes
+            note -= 12 * octave;
         }
         return (note + step);
 	}

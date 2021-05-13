@@ -17,4 +17,35 @@ std::map<Note,std::string> noteToString {
     {Note::BFlat, "B-flat"},
     {Note::B, "B"}
 };
+
+enum class Chords {TRIAD, SEVENTH, SUS2, SUS4};
+std::map<Chords, std::string> chordTypeName {
+    {Chords::TRIAD, "Triad"},
+    {Chords::SEVENTH, "Seventh"},
+    {Chords::SUS2, "Sus2"},
+    {Chords::SUS4, "Sus4"}
+};
+
+enum class NoteFromRoot {FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH};
+std::map<NoteFromRoot, std::string> majorNoteFromRoot {
+    {NoteFromRoot::FIRST, "I"},
+    {NoteFromRoot::SECOND, "II"},
+    {NoteFromRoot::THIRD, "III"},
+    {NoteFromRoot::FOURTH, "IV"},
+    {NoteFromRoot::FIFTH, "V"},
+    {NoteFromRoot::SIXTH, "VI"},
+    {NoteFromRoot::SEVENTH, "VII"},
+    {NoteFromRoot::EIGHTH, "VIII"},
+};
+std::map<NoteFromRoot, std::string> minorNoteFromRoot {
+    {NoteFromRoot::FIRST, "i"},
+    {NoteFromRoot::SECOND, "ii"},
+    {NoteFromRoot::THIRD, "iii"},
+    {NoteFromRoot::FOURTH, "iv"},
+    {NoteFromRoot::FIFTH, "v"},
+    {NoteFromRoot::SIXTH, "vi"},
+    {NoteFromRoot::SEVENTH, "vii"},
+    {NoteFromRoot::EIGHTH, "viii"},
+};
+
 enum class Sharps {CSharp,DSharp,ESharp,FSharp,GSharp,ASharp,BSharp};

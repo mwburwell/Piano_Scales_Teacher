@@ -16,7 +16,7 @@
 #include <map>
 #include <vector>
 /**
- * 
+ * I WOULD EVENTUALLY LIKE TO MAKE THIS A TEMPLATE TO BE MORE ABSTRACT WITH READING A CSV FILE
  */
 
 class CSV_Reader{

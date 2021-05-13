@@ -26,6 +26,7 @@ public:
         }
         return false;
     }
+
 	std::vector<Note> getScale() const {
         return this->scale;
     }

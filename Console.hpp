@@ -2,6 +2,10 @@
 #include <iostream>
 #include <vector>
 
+/**
+ * NEED TO MAKE MOST OF THESE FUNCTIONS TEMPLATE FUNCTIONS
+ */
+
 class Console{
 public:
 
@@ -31,12 +35,24 @@ public:
         return input;
     }
 
-    static void printVector(const std::vector<std::string> &stringVector, const int &choice ){
-        std::cout << choice << "\t";
+    static void printVectorLine(const std::vector<std::string> &stringVector, const int &choice ){
+        std::cout << "option " << choice << ":  ";
         for(unsigned int i = 0; i < stringVector.size(); i++){
             std::cout << stringVector.at(i) << ", ";
         }
         std::cout << std::endl;
+    }
+
+    static void printVectorMultiLine(const std::vector<std::string> &vec){
+        for(unsigned int i = 0; i < vec.size(); i++){
+            std::cout << i + 1 << ":  " << vec.at(i) << std::endl;
+        }
+    }
+
+    static void printIntMapMultiLine(std::map<Note, std::string> m) {
+        for(unsigned int i = 0; i < m.size(); i++){
+            std::cout << i + 1 << ":  " << m[(Note)i] << std::endl;
+        }
     }
 
 };
