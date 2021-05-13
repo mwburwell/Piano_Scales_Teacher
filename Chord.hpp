@@ -53,6 +53,7 @@ public:
         }
     }
 
+    virtual std::string ChordName() = 0;
 private:
     void setNumOfNotes(int amountOfNotes){
         try{
@@ -105,7 +106,7 @@ private:
 public:
     Triad(Note root, ScaleType mode) : Chord(root, mode, {0,2,4}){}
 
-
+    std::string ChordName(){ return "Triad";}
 private:
 
 };
@@ -114,6 +115,7 @@ class Seventh : public Chord {
 private:
 public:
     Seventh(Note root, ScaleType mode) : Chord(root, mode, {0,2,4,6}){}
+    std::string ChordName(){ return "Seventh";}
 
 private:
 };
@@ -122,6 +124,7 @@ class Sus2 : public Chord{
 private:
 public:
     Sus2(Note root, ScaleType mode) : Chord(root, mode, {0,1,4}){}
+    std::string ChordName(){ return "Sus2";}
 
 private:
 };
@@ -130,6 +133,7 @@ class Sus4 : public Chord{
 private:
 public:
     Sus4(Note root, ScaleType mode) : Chord(root, mode, {0,3,4}){}
+    std::string ChordName(){ return "Sus4";}
 
 private:
 };
