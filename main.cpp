@@ -9,46 +9,70 @@
 
 const std::vector<std::string> CHORD_NAMES = {"Triad", "Seventh", "Sus2", "Sus4"};
 
-NoteFromRoot getRootOfChord(const std::string &s);
+std::vector<NoteFromRoot> getVectorOfRootNotes(const std::vector<std::string> &strings, std::vector<ScaleType> &majMin);
+NoteFromRoot getRootOfChord(const std::string &s, std::vector<ScaleType> &majMin);
 int selectChordProgression(const std::string &prompt, const std::map<int, std::vector<std::string>> &prog);
 
 int main(){
+    std::map<int, std::vector<std::string>> progressions;
+    std::vector<NoteFromRoot> pattern;
+    std::vector<ScaleType> majMinPattern;
+    int pianoSize, choice;
+    Note firstNote, root;
+    Chords chordType;
+
     // initialize the chord progressions from the csv on file
     CSV_Reader chordsFile("chordprogressions.csv");
-    std::map<int, std::vector<std::string>> progressions = chordsFile.getMap();
+    progressions = chordsFile.getMap();
 
     // get the piano information from the user
-    int pianoSize = Console::getIntegerFromUserMinMax("How many Keys does your piano have:  ",12,88);
+    pianoSize = Console::getIntegerFromUserMinMax("How many Keys does your piano have:  ",12,88);
     Console::printNoteMapMultiLine(noteToString);
-    Note firstNote = (Note)(Console::getIntegerFromUserMinMax("What note does your piano start with:  ", 1, 12) - 1);
+    firstNote = (Note)(Console::getIntegerFromUserMinMax("What note does your piano start with:  ", 1, 12) - 1);
 
     // create piano
     Piano piano(firstNote, pianoSize);
 
     // get the chord progression
-    int choice = selectChordProgression("Which chord progression would you like to display:  ", progressions);
+    choice = selectChordProgression("Which chord progression would you like to display:  ", progressions);
+    // turn the progression into enum vector chord pattern
+    pattern = getVectorOfRootNotes(progressions.at(choice), majMinPattern);
+
 
     Console::printVectorMultiLine(CHORD_NAMES);
-    Chords chordType = (Chords)(Console::getIntegerFromUserMinMax("Which chord would you like to play:  ", 1, CHORD_NAMES.size()) - 1);
+    chordType = (Chords)(Console::getIntegerFromUserMinMax("Which chord would you like to play:  ", 1, CHORD_NAMES.size()) - 1);
+    Console::printNoteMapMultiLine(noteToString);
+    root = (Note)(Console::getIntegerFromUserMinMax("What is your root note for the chord progression:  ", 1, 12) - 1);
+    Scale rootScale(root, ScaleType::IONIAN);
 
-    
+    for(int i = 0; i < pattern.size(); i++){
+        ScaleType sType;
+        Chord* chord = new Triad(rootScale.getNote((int)pattern.at(i)), majMinPattern.at(i));
 
-    std::cout << chordTypeName[chordType] << std::endl;
- 
-    std::cout << piano << std::endl;
+        std::cout   << chord->ChordName() << " - " 
+                    << chord->getNote_toString(0) << " - " 
+                    << chord->getScale()->getMode_toString() << std::endl;
+                    
+        std::cout << chord->chord_scale_toString(piano) << std::endl;
+        std::cout << piano << std::endl << std::endl;
 
+        delete chord;
+        chord = NULL;
+    }
 
     return 0;
 }
 
-NoteFromRoot getRootOfChord(const std::string &s){
+NoteFromRoot getRootOfChord(const std::string &s, std::vector<ScaleType> &majorMinor){
     for(unsigned int i = 0; i < majorNoteFromRoot.size(); i++){
         if(s.compare(majorNoteFromRoot[(NoteFromRoot)i]) == 0){
+            majorMinor.push_back(ScaleType::IONIAN);
             return (NoteFromRoot)i;
         }
     }
     for(unsigned int i = 0; i < minorNoteFromRoot.size(); i++){
         if(s.compare(minorNoteFromRoot[(NoteFromRoot)i]) == 0){
+            majorMinor.push_back(ScaleType::AEOLIAN);
             return (NoteFromRoot)i;
         }
     }
@@ -62,4 +86,12 @@ int selectChordProgression(const std::string &prompt, const std::map<int, std::v
     }
 
     return Console::getIntegerFromUserMinMax(prompt, 1, prog.size()) - 1;
+}
+
+std::vector<NoteFromRoot> getVectorOfRootNotes(const std::vector<std::string> &strings, std::vector<ScaleType> &majMin){
+    std::vector<NoteFromRoot> notes;
+    for(int i = 0; i < strings.size(); i++){
+        notes.push_back(getRootOfChord(strings.at(i), majMin));
+    }
+    return notes;
 }
