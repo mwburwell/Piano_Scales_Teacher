@@ -22,6 +22,8 @@ public:
 
             if(std::cin.fail()){
                 std::cout << "You did not enter a number try again." << std::endl;
+                std::cin.clear();
+                std::cin.ignore(1000, '\n');            // need to add system specific information for the ignore function
                 input = getIntegerFromUserMinMax(prompt, min, max);
             }
             if(input < min || input > max){
@@ -32,6 +34,7 @@ public:
         } catch(std::invalid_argument ex) {
             std::cout << "getIntegerFromUserMinMax <invalid_argument> - " << ex.what() << std::endl;
         }
+        std::cout << std::endl;
         return input;
     }
 
@@ -49,10 +52,9 @@ public:
         }
     }
 
-    static void printIntMapMultiLine(std::map<Note, std::string> m) {
+    static void printNoteMapMultiLine(std::map<Note, std::string> m) {
         for(unsigned int i = 0; i < m.size(); i++){
             std::cout << i + 1 << ":  " << m[(Note)i] << std::endl;
         }
     }
-
 };

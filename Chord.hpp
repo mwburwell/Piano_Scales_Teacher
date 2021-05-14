@@ -1,8 +1,9 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "Scale.hpp"
 #include "Enumerators.hpp"
+#include "Scale.hpp"
+#include "Piano.hpp"
 
 class Chord {
 private:
@@ -16,8 +17,12 @@ public:
         setChord(noteIndeces);
     }
     ~Chord() {
+        delete scale;
+        scale = NULL;
     }
 
+    std::vector<Note> getChordNotes(){return this->chordNotes;}
+    Scale *getScale(){return this->scale;}
     unsigned int getSize() const {
         return this->numberOfNotes;
     }
@@ -53,7 +58,81 @@ public:
         }
     }
 
+    bool contains(const Note &n) const {
+        for(unsigned int i = 0; i < Chord::getSize(); i++){
+            if(Chord::getNote(i) == n){
+                return true;
+            }
+        }
+        return false;
+    }
+
     virtual std::string ChordName() = 0;
+
+    std::string chord_scale_toString(const Piano &p){
+        int leftSide = (int)(p.getOctaves() / 2);
+        int rightSide = (int)(p.getOctaves() - leftSide);
+        std::cout << "Left: " << leftSide << "\nRight: " << rightSide << std::endl;
+        std::string lightUpString;
+        for(unsigned int i = 0; i < p.getSize(); i++){
+            if(leftSide > 0){
+                if(p.getNote(i) == Chord::getNote(Chord::getSize() - 1)){
+                    leftSide--;
+                }
+
+                if(Chord::contains(p.getNote(i))){
+                    lightUpString += "O ";
+                }
+                else{
+                    lightUpString += "  ";
+                }
+            } 
+            else{
+                if(Chord::getScale()->contains(p.getNote(i))){
+                    lightUpString += "X ";
+                }
+                else{
+                    lightUpString += "  ";
+                }
+            }
+        }
+        std::cout << "LeftSide: " << leftSide << std::endl;
+        std::cout << "RightSide: " << rightSide << std::endl;
+        return lightUpString;
+    }
+
+    std::string scale_Chord_toString(const Piano &p){
+        int rightSide = (int)(p.getOctaves() / 2);
+        int leftSide = (int)(p.getOctaves() - rightSide);
+        std::string lightUpString;
+        for(unsigned int i = 0; i < p.getSize(); i++){
+            if(leftSide > 0){
+                if(p.getNote(i) == Chord::getNote(0)){
+                    leftSide--;
+                }
+
+                if(Chord::contains(p.getNote(i)) && leftSide > 0){
+                    lightUpString += "O ";
+                }
+                else{
+                    lightUpString += "  ";
+                }
+            } 
+            else{
+                if(Chord::getScale()->contains(p.getNote(i))){
+                    lightUpString += "X ";
+                }
+                else{
+                    lightUpString += "  ";
+                }
+            }
+        }
+        std::cout << "LeftSide: " << leftSide << std::endl;
+        std::cout << "RightSide: " << rightSide << std::endl;
+        return lightUpString;
+    }
+
+
 private:
     void setNumOfNotes(int amountOfNotes){
         try{
@@ -99,8 +178,6 @@ private:
 
 
 
-
-
 class Triad : public Chord {
 private:
 public:
@@ -116,6 +193,16 @@ private:
 public:
     Seventh(Note root, ScaleType mode) : Chord(root, mode, {0,2,4,6}){}
     std::string ChordName(){ return "Seventh";}
+
+    // std::string toString(){
+
+    // }
+
+    // std::string chord_Scale_toString(const Piano &p){
+    //     int leftSide = (int)(p.getOctaves() / 2);
+    //     int rideSide = (int)(p.getOctaves() - leftSide);
+    // }
+
 
 private:
 };

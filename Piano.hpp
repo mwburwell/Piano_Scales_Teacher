@@ -8,12 +8,14 @@ private:
     unsigned int numberOfKeys;
     std::vector<Note> keyboard;
     Note firstKey;
+    int maxOctaves;
 public:
     Piano(Note firstKey, unsigned int numKeys){
         try{
             this->firstKey = firstKey;
             setNumberOfKeys(numKeys);
             setKeyboard(firstKey);
+            setMaxOctaves(numKeys);
         } catch(std::exception ex){
             std::cout << "Exception creating key Board: " << ex.what() << std::endl;
             throw ex;
@@ -22,7 +24,9 @@ public:
 
     unsigned int getSize() const {return this->numberOfKeys;}
 
-    Note getNote(int index){
+    unsigned int getOctaves() const { return this->maxOctaves; }
+
+    Note getNote(int index) const {
         try{
             if(index < 0){
                 throw std::invalid_argument("index cannot be less than 0.");
@@ -38,7 +42,7 @@ public:
         }
     }
 
-    std::vector<int> getIndecesOfNote(Note n){
+    std::vector<int> getIndecesOfNote(Note n) const {
         std::vector<int> indeces;
         for(unsigned int i = 0; i < getSize(); i++){
             if(getNote(i) == n){
@@ -53,7 +57,7 @@ public:
 		return noteToString[n];
 	}
 
-    std::string toString(){
+    std::string toString() const {
         std::string pString;
         for(unsigned int i = 0; i < Piano::getSize(); i++){
             pString += "_ ";
@@ -121,4 +125,9 @@ private:
         }
         return (note + step);
 	}
+
+    void setMaxOctaves(const int &size){
+        /** Will usually end in a double but I just want the maximum full octaves anyway */
+        this->maxOctaves = (int)(size / 12);
+    }
 };

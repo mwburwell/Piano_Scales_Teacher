@@ -18,6 +18,8 @@ std::map<Note,std::string> noteToString {
     {Note::B, "B"}
 };
 
+enum class ScaleType {IONIAN, DORIAN,PHRYGIAN,LYDIAN,MIXOLYDIAN,AEOLIAN,LOCRIAN};
+
 enum class Chords {TRIAD, SEVENTH, SUS2, SUS4};
 std::map<Chords, std::string> chordTypeName {
     {Chords::TRIAD, "Triad"},
