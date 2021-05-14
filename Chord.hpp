@@ -72,7 +72,6 @@ public:
     std::string chord_scale_toString(const Piano &p){
         int leftSide = (int)(p.getOctaves() / 2);
         int rightSide = (int)(p.getOctaves() - leftSide);
-        std::cout << "Left: " << leftSide << "\nRight: " << rightSide << std::endl;
         std::string lightUpString;
         for(unsigned int i = 0; i < p.getSize(); i++){
             if(leftSide > 0){
@@ -96,8 +95,6 @@ public:
                 }
             }
         }
-        std::cout << "LeftSide: " << leftSide << std::endl;
-        std::cout << "RightSide: " << rightSide << std::endl;
         return lightUpString;
     }
 

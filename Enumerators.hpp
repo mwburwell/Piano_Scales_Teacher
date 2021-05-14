@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 
+// notes enum
 enum class Note {C,DFlat,D,EFlat,E,F,GFlat,G,AFlat,A,BFlat,B};
 std::map<Note,std::string> noteToString {
     {Note::C, "C"},
@@ -18,7 +19,13 @@ std::map<Note,std::string> noteToString {
     {Note::B, "B"}
 };
 
+// modes 
 enum class ScaleType {IONIAN, DORIAN,PHRYGIAN,LYDIAN,MIXOLYDIAN,AEOLIAN,LOCRIAN};
+std::map<ScaleType, std::string> scaleTypeNames {
+    {ScaleType::IONIAN, "Major"},
+    {ScaleType::AEOLIAN, "Minor"}
+};
+
 
 enum class Chords {TRIAD, SEVENTH, SUS2, SUS4};
 std::map<Chords, std::string> chordTypeName {

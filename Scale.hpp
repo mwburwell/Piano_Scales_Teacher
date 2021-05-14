@@ -5,15 +5,15 @@
 #include <map>
 #include "Enumerators.hpp"
 
-enum class ScaleType {IONIAN, DORIAN,PHRYGIAN,LYDIAN,MIXOLYDIAN,AEOLIAN,LOCRIAN};
-
 class Scale {
 private:
 	std::vector<Note> scale;
+	ScaleType mode;
 	Note root;
 	int scaleSize;
 public:
 	Scale(Note key, ScaleType mode) {
+		this->mode = mode;
 		stepFromKey(key, this->scale, chooseScaleSteps(mode));
 		this->scaleSize = scale.size();
 	}
@@ -31,6 +31,10 @@ public:
         return this->scale;
     }
 
+	std::string getMode_toString() const { return scaleTypeNames[this->mode];}
+
+	ScaleType getMode() const { return this->mode; }
+	
 	int getSize() const {
         return this->scaleSize;
     }
