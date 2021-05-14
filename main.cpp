@@ -33,12 +33,13 @@
  * 
  * Resources:           https://www.pianoscales.org/major.html
  * 
- * PS:  Sorry for the mess Professor Roberts.  I am completing this assignment under the wire.  
+ *   Sorry for the mess Professor Roberts.  I am completing this assignment under the wire.  
  *      I could refactor most of main into new classes, but it is last call before assignment is due. 
  *      So this is what I have for now.
  */
  // TODO MUSIC THEORY
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <map>
 #include <vector>
@@ -49,6 +50,7 @@
 
 const std::vector<std::string> CHORD_NAMES = {"Triad", "Seventh", "Sus2", "Sus4"};
 
+// Kilroy was here   
 std::vector<NoteFromRoot> getVectorOfRootNotes(const std::vector<std::string> &strings, std::vector<ScaleType> &majMin);
 NoteFromRoot getRootOfChord(const std::string &s, std::vector<ScaleType> &majMin);
 int selectChordProgression(const std::string &prompt, const std::map<int, std::vector<std::string>> &prog);
@@ -92,12 +94,22 @@ int main(){
         ScaleType sType;
         Chord* chord = getChord(rootScale.getNote((int)pattern.at(i)), majMinPattern.at(i), chordType);
 
+        // print the chord discription
+        std::cout   << std::setfill('#') << std::setw(piano.getSize() * 2) << '#' << std::setfill(' ') << std::endl;
         std::cout   << chord->ChordName() << " - " 
                     << chord->getNote_toString(0) << " - " 
-                    << chord->getScale()->getMode_toString() << std::endl;
+                    << chord->getScale()->getMode_toString() << std::endl << std::endl;
 
+        // print the chord notes chords on the right and scales on the left
+        std::cout << "Chord: left\tScale: right" << std::endl;
         std::cout << chord->chord_scale_toString(piano) << std::endl;
         std::cout << piano << std::endl << std::endl;
+
+        // print the scale notes on the left and the chord notes on the right.
+        std::cout << "Scale: left\tChord: right" << std::endl;
+        std::cout << chord->scale_Chord_toString(piano) << std::endl;
+        std::cout << piano << std::endl << std::endl;
+        std::cout   << std::setfill('#') << std::setw(piano.getSize() * 2) << '#' << std::setfill(' ') << std::endl << std::endl;
 
         delete chord;
         chord = NULL;
