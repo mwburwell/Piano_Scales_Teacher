@@ -1,3 +1,13 @@
+/**
+ * Title:       Piano Tutor
+ * Author:      Michael Burwell
+ * Class:       CSCI201
+ * Instructor:  Kristopher Roberts;
+ * 
+ * File:            Enumerators
+ * Descriptions:    This file is for only carrying enumerators and string maps of the enumerators
+ *                   for the Piano tutuor File
+ */
 #pragma once
 #include <map>
 #include <string>

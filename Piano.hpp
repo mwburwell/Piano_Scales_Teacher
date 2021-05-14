@@ -1,3 +1,13 @@
+/**
+ * Title:       Piano Tutor
+ * Author:      Michael Burwell
+ * Class:       CSCI201
+ * Instructor:  Kristopher Roberts;
+ * 
+ * File:            Piano.hpp
+ * Descriptions:    This is a piano class that will be created with the size of the keyboard
+ *                  and the note that it starts with.
+ */
 #pragma once
 #include <vector>
 #include <iostream>
@@ -22,10 +32,13 @@ public:
         }
     }
 
+    // returns the size of the piano
     unsigned int getSize() const {return this->numberOfKeys;}
 
+    // returns the total octaves allowed on the piano
     unsigned int getOctaves() const { return this->maxOctaves; }
 
+    // returns a note from the Piano found by index
     Note getNote(int index) const {
         try{
             if(index < 0){
@@ -42,6 +55,7 @@ public:
         }
     }
 
+    // returns all indeces of a single note
     std::vector<int> getIndecesOfNote(Note n) const {
         std::vector<int> indeces;
         for(unsigned int i = 0; i < getSize(); i++){
@@ -52,11 +66,13 @@ public:
         return indeces;
     }
 
+    // returns a string for the note in the pianos vector of Notes
     std::string getNote_toString(int index) const {
 		Note n = this->keyboard.at(index);
 		return noteToString[n];
 	}
 
+    // make a string of the piano's keys and spaces
     std::string toString() const {
         std::string pString;
         for(unsigned int i = 0; i < Piano::getSize(); i++){
@@ -77,11 +93,13 @@ public:
         return pString;
     }
 
+    // makes piano friendly with the output stream
     friend std::ostream& operator<<(std::ostream& output, Piano &p) {
         output << p.toString();
         return output;
     }
 private:
+    // set the number of keys with Exceptions that can be thrown 
     void setNumberOfKeys(unsigned int keys){
         /**Verify the number of keys are between 12 and 88 then assign to class variable */
         try{
@@ -102,6 +120,7 @@ private:
         }
     }
 
+    // set all notes in the keyboard starting from the first note
 	void setKeyboard(Note key){
 		this->keyboard.push_back(key);
 		/**Takes the root key of the scale and puts it in the scale then starting
@@ -115,6 +134,7 @@ private:
 		}
 	}
 
+    // is used in the set keyboard function to find the next note
     int nextNote(int note, int step){
         int octave = (int)((note + step) / 12);
         if(octave > 0){
@@ -126,6 +146,7 @@ private:
         return (note + step);
 	}
 
+    // sets the maximum number of octaves
     void setMaxOctaves(const int &size){
         /** Will usually end in a double but I just want the maximum full octaves anyway */
         this->maxOctaves = (int)(size / 12);

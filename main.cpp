@@ -5,8 +5,40 @@
  * Instructor:  Kristopher Roberts;
  * 
  * File:            Main
- * Descriptions:    
- */#include <iostream>
+ * 
+ * Descriptions:    I would like to propose making a program that would take a file input which 
+ *                  consists of Chord progressions in CSV format.  The program will then prompt 
+ *                  the user to select one of the chord progressions and a Key for the progression.  
+ *                  Once given the chord progression and the Key, the program will output the notes 
+ *                  for each chord in the progression.
+ *                  
+ *                  I would like to keep the proposal of the output of this program to have an 
+ *                  achievable goal in the time frame that I have been allotted.  While I can do more 
+ *                  and will do more, I do not want to bury myself before I really sink my teeth into 
+ *                  the project.
+ * 
+ *                  I would eventually like the program to work on a light up keyboard.  It would 
+ *                  display the cord progression with lights for the left hand and display a scale 
+ *                  that corresponds to the chord for the right hand to freestyle.  The notes will 
+ *                  stay lit up until the chord changes.  At the time the chord changes the lights 
+ *                  for the chord and scale will also change.
+ * 
+ *                  This project can become very complex if you look at the availability of chord and 
+ *                  scale combinations.  Therefore I have set up an achievable goal for this classes 
+ *                  final project.
+ * 
+ * 
+ * Special Thanks to:   Oliver Prehn    https://www.youtube.com/channel/UCfmAjVU0aF41zi7oWB8_TUg
+ *                      Lisa Witt       https://www.youtube.com/channel/UC_DmCvOP5Q_eBMRDvqqRXjg
+ * 
+ * Resources:           https://www.pianoscales.org/major.html
+ * 
+ * PS:  Sorry for the mess Professor Roberts.  I am completing this assignment under the wire.  
+ *      I could refactor most of main into new classes, but it is last call before assignment is due. 
+ *      So this is what I have for now.
+ */
+ // TODO MUSIC THEORY
+#include <iostream>
 #include <string>
 #include <map>
 #include <vector>
@@ -48,12 +80,14 @@ int main(){
     pattern = getVectorOfRootNotes(progressions.at(choice), majMinPattern);
 
 
+    // get the chordType from the user and key
     Console::printVectorMultiLine(CHORD_NAMES);
     chordType = (Chords)(Console::getIntegerFromUserMinMax("Which chord would you like to play:  ", 1, CHORD_NAMES.size()) - 1);
     Console::printNoteMapMultiLine(noteToString);
-    root = (Note)(Console::getIntegerFromUserMinMax("What is your root note for the chord progression:  ", 1, 12) - 1);
+    root = (Note)(Console::getIntegerFromUserMinMax("What key will this chord progression be in:  ", 1, 12) - 1);
     Scale rootScale(root, ScaleType::IONIAN);
 
+    // ccreate a chord and print it to the screen with an underlay of the piano
     for(int i = 0; i < pattern.size(); i++){
         ScaleType sType;
         Chord* chord = getChord(rootScale.getNote((int)pattern.at(i)), majMinPattern.at(i), chordType);
