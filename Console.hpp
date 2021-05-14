@@ -1,3 +1,12 @@
+/**
+ * Title:       Piano Tutor
+ * Author:      Michael Burwell
+ * Class:       CSCI201
+ * Instructor:  Kristopher Roberts;
+ * 
+ * File:            Console.hpp
+ * Descriptions:    Some functions that are usually associated with input/ouput to the console
+ */
 #pragma once
 #include <iostream>
 #include <vector>
@@ -9,6 +18,7 @@
 class Console{
 public:
 
+    // gets an integer with a minimum and maximum
     static int getIntegerFromUserMinMax(const std::string &prompt, const int &min, const int &max){
         int input;
 
@@ -38,6 +48,7 @@ public:
         return input;
     }
 
+    // prints a single line to the console from a vector of type string
     static void printVectorLine(const std::vector<std::string> &stringVector, const int &choice ){
         std::cout << "option " << choice << ":  ";
         for(unsigned int i = 0; i < stringVector.size(); i++){
@@ -46,12 +57,14 @@ public:
         std::cout << std::endl;
     }
 
+    // prints a multi line using a string vector
     static void printVectorMultiLine(const std::vector<std::string> &vec){
         for(unsigned int i = 0; i < vec.size(); i++){
             std::cout << i + 1 << ":  " << vec.at(i) << std::endl;
         }
     }
 
+    // prints a multi line using a Note and string map
     static void printNoteMapMultiLine(std::map<Note, std::string> m) {
         for(unsigned int i = 0; i < m.size(); i++){
             std::cout << i + 1 << ":  " << m[(Note)i] << std::endl;

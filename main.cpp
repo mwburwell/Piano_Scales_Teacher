@@ -1,4 +1,12 @@
-#include <iostream>
+/**
+ * Title:       Piano Tutor
+ * Author:      Michael Burwell
+ * Class:       CSCI201
+ * Instructor:  Kristopher Roberts;
+ * 
+ * File:            Main
+ * Descriptions:    
+ */#include <iostream>
 #include <string>
 #include <map>
 #include <vector>
@@ -12,6 +20,7 @@ const std::vector<std::string> CHORD_NAMES = {"Triad", "Seventh", "Sus2", "Sus4"
 std::vector<NoteFromRoot> getVectorOfRootNotes(const std::vector<std::string> &strings, std::vector<ScaleType> &majMin);
 NoteFromRoot getRootOfChord(const std::string &s, std::vector<ScaleType> &majMin);
 int selectChordProgression(const std::string &prompt, const std::map<int, std::vector<std::string>> &prog);
+Chord* getChord(const Note &root, const ScaleType &mode, Chords c = Chords::TRIAD);
 
 int main(){
     std::map<int, std::vector<std::string>> progressions;
@@ -47,12 +56,12 @@ int main(){
 
     for(int i = 0; i < pattern.size(); i++){
         ScaleType sType;
-        Chord* chord = new Triad(rootScale.getNote((int)pattern.at(i)), majMinPattern.at(i));
+        Chord* chord = getChord(rootScale.getNote((int)pattern.at(i)), majMinPattern.at(i), chordType);
 
         std::cout   << chord->ChordName() << " - " 
                     << chord->getNote_toString(0) << " - " 
                     << chord->getScale()->getMode_toString() << std::endl;
-                    
+
         std::cout << chord->chord_scale_toString(piano) << std::endl;
         std::cout << piano << std::endl << std::endl;
 
@@ -61,6 +70,16 @@ int main(){
     }
 
     return 0;
+}
+
+Chord* getChord(const Note &root, const ScaleType &mode, Chords c){
+    switch(c){
+        case Chords::TRIAD: return new Triad(root, mode); break;
+        case Chords::SEVENTH: return new Seventh(root, mode); break;
+        case Chords::SUS2: return new Sus2(root, mode); break;
+        case Chords::SUS4: return new Sus4(root, mode); break;
+        default: return new Triad(root, mode); 
+    }
 }
 
 NoteFromRoot getRootOfChord(const std::string &s, std::vector<ScaleType> &majorMinor){
