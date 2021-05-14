@@ -137,24 +137,22 @@ public:
                     leftSide--;
                 }
 
-                if(Chord::contains(p.getNote(i)) && leftSide > 0){
-                    lightUpString += "O ";
-                }
-                else{
-                    lightUpString += "  ";
-                }
-            } 
-            else{
                 if(Chord::getScale()->contains(p.getNote(i))){
                     lightUpString += "X ";
                 }
                 else{
                     lightUpString += "  ";
                 }
+            } 
+            else{
+                if(Chord::contains(p.getNote(i))){
+                    lightUpString += "O ";
+                }
+                else{
+                    lightUpString += "  ";
+                }
             }
         }
-        std::cout << "LeftSide: " << leftSide << std::endl;
-        std::cout << "RightSide: " << rightSide << std::endl;
         return lightUpString;
     }
 
